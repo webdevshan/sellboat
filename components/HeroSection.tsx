@@ -9,7 +9,7 @@ export default function HeroSection() {
   const [showCookieBanner, setShowCookieBanner] = useState(true)
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-[70vh] sm:h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -22,29 +22,27 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
       </div>
 
-
       {/* Main Content */}
-      <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 font-display">
+      <div className="relative z-10 text-center text-white px-3 sm:px-4 lg:px-8 max-w-4xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 font-display leading-tight">
           Find Your Next
           <span className="block text-gradient">Boat Adventure</span>
         </h1>
-        <p className="text-xl sm:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-gray-100 max-w-2xl mx-auto px-2">
           Discover, buy, sell, and rent boats across Australia. Your perfect maritime experience awaits.
         </p>
 
         {/* Search Form Overlay */}
-        <div className="mt-12">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <SearchForm />
         </div>
       </div>
 
-
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex justify-center">
+            <div className="w-1 h-2 sm:h-3 bg-white rounded-full mt-1 sm:mt-2 animate-pulse"></div>
           </div>
         </div>
       </div>
