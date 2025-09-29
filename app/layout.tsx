@@ -4,14 +4,13 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
-import { AuthProvider } from '@/components/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'BoatMarket Australia - Buy, Sell & Rent Boats',
-  description: 'Australia\'s premier boat marketplace. Buy, sell, and rent boats with confidence. Find your perfect boat today.',
-  keywords: 'boats, yacht, boat sales, boat rental, marine, Australia',
+  title: 'ExitYourBoatShare - Sell Your Boat Syndicate Share for Cash',
+  description: 'Not using your boat share days? We buy boat syndicate shares for cash. No brokers, no fuss, completely confidential. Get out of your boat share today.',
+  keywords: 'boat syndicate, boat share, sell boat share, exit boat syndicate, BSA, boat share exit, cash for boat share',
 }
 
 export default function RootLayout({
@@ -22,14 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <CookieBanner />
-        </AuthProvider>
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
+        <CookieBanner />
       </body>
     </html>
   )

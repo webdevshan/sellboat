@@ -53,3 +53,18 @@ export interface Booking {
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
   created_at: string
 }
+
+export interface ContactSubmission {
+  id: string
+  name: string
+  email: string
+  phone: string
+  syndicate: string
+  share_percentage: string
+  reason?: string
+  timeframe?: string
+  status: 'new' | 'contacted' | 'quoted' | 'sold' | 'declined'
+  notes?: string
+  created_at: string
+  updated_at: string
+}

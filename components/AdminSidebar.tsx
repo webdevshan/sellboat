@@ -1,35 +1,34 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase-client'
 import {
   LayoutDashboard,
-  Ship,
   Calendar,
-  Users,
-  DollarSign,
-  BarChart3,
-  Settings,
-  FileText,
+  Phone,
+  LogOut,
   Anchor
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Boat Listings', href: '/admin/boats', icon: Ship },
+  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
-  { name: 'Users', href: '/admin/users', icon: Users },
-  { name: 'Financials', href: '/admin/financials', icon: DollarSign },
-  { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
-  { name: 'Reports', href: '/admin/reports', icon: FileText },
-  { name: 'Settings', href: '/admin/settings', icon: Settings },
+  { name: 'Calls', href: '/admin/calls', icon: Phone },
 ]
 
 export default function AdminSidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/secure-access/admin-portal')
+  }
 
   return (
-    <div className="w-64 bg-white shadow-lg">
+    <div className="w-64 bg-white shadow-lg flex flex-col h-screen">
       <div className="p-6 border-b border-gray-200">
         <Link href="/" className="flex items-center space-x-2">
           <Anchor className="h-8 w-8 text-primary-600" />
@@ -40,7 +39,7 @@ export default function AdminSidebar() {
         <p className="text-sm text-gray-500 mt-1">Admin Dashboard</p>
       </div>
 
-      <nav className="mt-6">
+      <nav className="mt-6 flex-1">
         <div className="px-3">
           {navigation.map((item) => {
             const isActive = pathname === item.href
@@ -61,6 +60,17 @@ export default function AdminSidebar() {
           })}
         </div>
       </nav>
+
+      {/* Logout Button */}
+      <div className="p-4 border-t border-gray-200">
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md transition-colors"
+        >
+          <LogOut className="mr-3 h-5 w-5" />
+          Logout
+        </button>
+      </div>
     </div>
   )
 }

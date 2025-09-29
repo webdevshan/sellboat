@@ -7,18 +7,12 @@ import {
   Menu,
   X,
   Anchor,
-  User,
-  LogOut,
-  Plus,
-  LogIn
+  Plus
 } from 'lucide-react'
-import { useAuth } from '@/components/AuthProvider'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [showUserMenu, setShowUserMenu] = useState(false)
-  const { user, signOut } = useAuth()
 
   return (
     <>
@@ -26,8 +20,8 @@ export default function Header() {
       <div className="bg-primary-600 text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <span className="hidden sm:inline">Buy it. Sell it. Love it.</span>
-            <span className="sm:hidden text-xs">BoatMarket</span>
+            <span className="hidden sm:inline">Sell your boat share for cash</span>
+            <span className="sm:hidden text-xs">ExitShare</span>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <span className="hidden sm:inline">Have any questions?</span>
@@ -70,22 +64,22 @@ export default function Header() {
               <Link href="/" className="flex items-center space-x-1 sm:space-x-2">
                 <Anchor className="h-6 w-6 sm:h-8 sm:w-8 text-primary-600" />
                 <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 font-display">
-                  <span className="hidden sm:inline">BoatMarket</span>
-                  <span className="sm:hidden">BM</span>
+                  <span className="hidden sm:inline">ExitYourBoatShare</span>
+                  <span className="sm:hidden">ExitShare</span>
                 </span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-4 lg:space-x-6 ml-4 lg:ml-8">
-              <Link href="/buy" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
-                Buy
+              <Link href="#process" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
+                How it Works
               </Link>
-              <Link href="/sell" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
-                Sell
+              <Link href="#why-sell" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
+                Why Sell
               </Link>
-              <Link href="/rent" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
-                Rent
+              <Link href="#contact" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
+                Contact
               </Link>
             </nav>
 
@@ -95,7 +89,7 @@ export default function Header() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search boats..."
+                  placeholder="Search boat syndicates..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 placeholder-gray-500 text-sm lg:text-base"
                 />
               </div>
@@ -103,62 +97,15 @@ export default function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-2 sm:space-x-4">
-              {user ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-1 sm:space-x-2 text-gray-700 hover:text-primary-600 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium transition-colors"
-                  >
-                    <User className="h-4 w-4 sm:h-5 sm:w-5" />
-                    <span className="hidden sm:inline">{user.email}</span>
-                  </button>
-
-                  {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Profile
-                      </Link>
-                      <Link href="/my-boats" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        My Boats
-                      </Link>
-                      <Link href="/bookings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        My Bookings
-                      </Link>
-                      <Link href="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Admin Dashboard
-                      </Link>
-                      <button
-                        onClick={signOut}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Sign out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <>
-                  {/* Mobile: Icon only */}
-                  <Link href="/login" className="sm:hidden p-2 text-gray-700 hover:text-primary-600 transition-colors">
-                    <LogIn className="h-5 w-5" />
-                  </Link>
-                  {/* Desktop: Text */}
-                  <Link href="/login" className="hidden sm:block text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors">
-                    Sign up / Log in
-                  </Link>
-                </>
-              )}
-
               {/* Sell Button */}
               <>
                 {/* Mobile: Icon only */}
-                <Link href="/sell" className="sm:hidden p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <Link href="#contact" className="sm:hidden p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
                   <Plus className="h-5 w-5" />
                 </Link>
                 {/* Desktop: Text */}
-                <Link href="/sell" className="hidden sm:block btn-primary text-xs sm:text-sm px-3 sm:px-4 py-2">
-                  Sell my boat
+                <Link href="#contact" className="hidden sm:block btn-primary text-xs sm:text-sm px-3 sm:px-4 py-2">
+                  Sell My Share
                 </Link>
               </>
             </div>
@@ -180,14 +127,14 @@ export default function Header() {
           <div className="md:hidden">
             <div className="px-3 pt-2 pb-3 space-y-1 bg-white border-t">
               <div className="grid grid-cols-3 gap-2 mb-4">
-                <Link href="/buy" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
-                  Buy
+                <Link href="#process" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
+                  How it Works
                 </Link>
-                <Link href="/sell" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
-                  Sell
+                <Link href="#why-sell" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
+                  Why Sell
                 </Link>
-                <Link href="/rent" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
-                  Rent
+                <Link href="#contact" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
+                  Contact
                 </Link>
               </div>
               <div className="px-2 py-2 border-t border-gray-200 pt-4">
@@ -195,18 +142,13 @@ export default function Header() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search boats..."
+                    placeholder="Search boat syndicates..."
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 placeholder-gray-500 text-sm"
                   />
                 </div>
                 <div className="flex flex-col space-y-2">
-                  {!user && (
-                    <Link href="/login" className="block px-3 py-2 text-center text-gray-700 hover:text-primary-600 transition-colors border border-gray-300 rounded-lg text-sm">
-                      Sign up / Log in
-                    </Link>
-                  )}
-                  <Link href="/sell" className="block px-3 py-2 text-center bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm">
-                    Sell my boat
+                  <Link href="#contact" className="block px-3 py-2 text-center bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm">
+                    Sell My Share
                   </Link>
                 </div>
               </div>
