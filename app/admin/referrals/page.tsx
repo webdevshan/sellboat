@@ -2,35 +2,37 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase-client'
-import { ContactSubmission, ReferralSubmission } from '@/lib/supabase'
-import { Eye, Edit, Trash2, Plus } from 'lucide-react'
+import { ReferralSubmission } from '@/lib/supabase'
+import { Eye, Edit, Trash2, RefreshCw } from 'lucide-react'
 
-export default function AdminDashboard() {
-  const [submissions, setSubmissions] = useState<ContactSubmission[]>([])
+export default function ReferralsPage() {
   const [referrals, setReferrals] = useState<ReferralSubmission[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedContact, setSelectedContact] = useState<ContactSubmission | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [selectedReferral, setSelectedReferral] = useState<ReferralSubmission | null>(null)
-  const [showContactModal, setShowContactModal] = useState(false)
-  const [showReferralModal, setShowReferralModal] = useState(false)
-  const [editingContact, setEditingContact] = useState<ContactSubmission | null>(null)
+  const [showModal, setShowModal] = useState(false)
   const [editingReferral, setEditingReferral] = useState<ReferralSubmission | null>(null)
 
   const supabase = createClient()
 
   useEffect(() => {
-    fetchData()
+    fetchReferrals()
   }, [])
 
-  const fetchData = async () => {
+  const fetchReferrals = async () => {
     try {
       setLoading(true)
+      setError(null)
 
-      // Fetch contact submissions
-      const { data: contactData, error: contactError } = await supabase
-        .from('contact_submissions')
-        .select('*')
-        .order('created_at', { ascending: false })
+      console.log('Fetching referrals...')
+
+      // Test the connection first
+      const { data: testData, error: testError } = await supabase
+        .from('referral_submissions')
+        .select('count')
+        .limit(1)
+
+      console.log('Test query result:', { testData, testError })
 
       // Fetch referral submissions
       const { data: referralData, error: referralError } = await supabase
@@ -38,43 +40,20 @@ export default function AdminDashboard() {
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (contactError) {
-        console.error('Error fetching submissions:', contactError)
-      } else {
-        setSubmissions(contactData || [])
-      }
+      console.log('Referral fetch result:', { referralData, referralError })
 
       if (referralError) {
         console.error('Error fetching referrals:', referralError)
+        setError(`Database error: ${referralError.message}`)
       } else {
-        console.log('Referral data fetched:', referralData)
+        console.log('Referral data fetched successfully:', referralData)
         setReferrals(referralData || [])
       }
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Error fetching referrals:', error)
+      setError(`Network error: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const handleDeleteContact = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this contact submission?')) return
-
-    try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .delete()
-        .eq('id', id)
-
-      if (error) {
-        console.error('Error deleting contact:', error)
-        alert('Failed to delete contact submission')
-      } else {
-        setSubmissions(submissions.filter(s => s.id !== id))
-      }
-    } catch (error) {
-      console.error('Error deleting contact:', error)
-      alert('Failed to delete contact submission')
     }
   }
 
@@ -96,27 +75,6 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error deleting referral:', error)
       alert('Failed to delete referral submission')
-    }
-  }
-
-  const handleUpdateContactStatus = async (id: string, newStatus: string) => {
-    try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .update({ status: newStatus })
-        .eq('id', id)
-
-      if (error) {
-        console.error('Error updating contact status:', error)
-        alert('Failed to update contact status')
-      } else {
-        setSubmissions(submissions.map(s =>
-          s.id === id ? { ...s, status: newStatus as any } : s
-        ))
-      }
-    } catch (error) {
-      console.error('Error updating contact status:', error)
-      alert('Failed to update contact status')
     }
   }
 
@@ -146,7 +104,7 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading submissions...</p>
+          <p className="mt-4 text-gray-600">Loading referrals...</p>
         </div>
       </div>
     )
@@ -156,134 +114,39 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-600 mt-2">Contact form submissions and referral submissions</p>
-        </div>
-
-        {/* Contact Submissions Section */}
-        <div className="bg-white shadow rounded-lg mb-8">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Contact Submissions</h2>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Referral Submissions</h1>
+              <p className="text-gray-600 mt-2">Manage marina staff and skipper referrals</p>
+            </div>
+            <button
+              onClick={fetchReferrals}
+              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              <RefreshCw className="h-4 w-4" />
+              <span>Refresh</span>
+            </button>
           </div>
-
-          {submissions && submissions.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Phone
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Syndicate
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Share %
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Submitted
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {submissions.map((submission: ContactSubmission) => (
-                    <tr key={submission.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {submission.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {submission.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {submission.phone}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {submission.syndicate}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {submission.share_percentage}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <select
-                          value={submission.status}
-                          onChange={(e) => handleUpdateContactStatus(submission.id, e.target.value)}
-                          className={`text-xs font-semibold rounded-full px-2 py-1 border-0 ${
-                            submission.status === 'new' ? 'bg-blue-100 text-blue-800' :
-                            submission.status === 'contacted' ? 'bg-yellow-100 text-yellow-800' :
-                            submission.status === 'quoted' ? 'bg-purple-100 text-purple-800' :
-                            submission.status === 'sold' ? 'bg-green-100 text-green-800' :
-                            'bg-red-100 text-red-800'
-                          }`}
-                        >
-                          <option value="new">New</option>
-                          <option value="contacted">Contacted</option>
-                          <option value="quoted">Quoted</option>
-                          <option value="sold">Sold</option>
-                          <option value="declined">Declined</option>
-                        </select>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(submission.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => {
-                              setSelectedContact(submission)
-                              setShowContactModal(true)
-                            }}
-                            className="text-blue-600 hover:text-blue-900"
-                            title="View Details"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setEditingContact(submission)
-                              setShowContactModal(true)
-                            }}
-                            className="text-yellow-600 hover:text-yellow-900"
-                            title="Edit"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteContact(submission.id)}
-                            className="text-red-600 hover:text-red-900"
-                            title="Delete"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="px-6 py-8 text-center text-gray-500">
-              No contact submissions yet.
-            </div>
-          )}
         </div>
 
-        {/* Referral Submissions Section */}
-        <div className="bg-white shadow rounded-lg mb-8">
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">Error</h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <p>{error}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-white shadow rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Referral Submissions</h2>
+            <h2 className="text-lg font-medium text-gray-900">
+              Referral Submissions ({referrals.length})
+            </h2>
           </div>
 
           {referrals && referrals.length > 0 ? (
@@ -366,7 +229,7 @@ export default function AdminDashboard() {
                           <button
                             onClick={() => {
                               setSelectedReferral(referral)
-                              setShowReferralModal(true)
+                              setShowModal(true)
                             }}
                             className="text-blue-600 hover:text-blue-900"
                             title="View Details"
@@ -376,7 +239,7 @@ export default function AdminDashboard() {
                           <button
                             onClick={() => {
                               setEditingReferral(referral)
-                              setShowReferralModal(true)
+                              setShowModal(true)
                             }}
                             className="text-yellow-600 hover:text-yellow-900"
                             title="Edit"
@@ -399,96 +262,13 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="px-6 py-8 text-center text-gray-500">
-              No referral submissions yet.
+              {error ? 'Failed to load referrals' : 'No referral submissions yet.'}
             </div>
           )}
         </div>
 
-        {/* Contact Details Modal */}
-        {showContactModal && selectedContact && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-              <div className="mt-3">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  {editingContact ? 'Edit Contact' : 'Contact Details'}
-                </h3>
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Name</label>
-                    <input
-                      type="text"
-                      value={selectedContact.name}
-                      readOnly={!editingContact}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Email</label>
-                    <input
-                      type="email"
-                      value={selectedContact.email}
-                      readOnly={!editingContact}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Phone</label>
-                    <input
-                      type="text"
-                      value={selectedContact.phone}
-                      readOnly={!editingContact}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Syndicate</label>
-                    <input
-                      type="text"
-                      value={selectedContact.syndicate}
-                      readOnly={!editingContact}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Share %</label>
-                    <input
-                      type="text"
-                      value={selectedContact.share_percentage}
-                      readOnly={!editingContact}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  {selectedContact.reason && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Reason</label>
-                      <textarea
-                        value={selectedContact.reason}
-                        readOnly={!editingContact}
-                        rows={3}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-end space-x-2 mt-6">
-                  <button
-                    onClick={() => {
-                      setShowContactModal(false)
-                      setSelectedContact(null)
-                      setEditingContact(null)
-                    }}
-                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Referral Details Modal */}
-        {showReferralModal && selectedReferral && (
+        {showModal && selectedReferral && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
               <div className="mt-3">
@@ -566,7 +346,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-end space-x-2 mt-6">
                   <button
                     onClick={() => {
-                      setShowReferralModal(false)
+                      setShowModal(false)
                       setSelectedReferral(null)
                       setEditingReferral(null)
                     }}

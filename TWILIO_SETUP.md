@@ -7,7 +7,9 @@ This project includes Twilio Voice SDK integration for making and receiving call
 ### 1. Supabase Setup
 
 1. Create a new Supabase project
-2. Run the SQL script in `sql/contact_submissions.sql` to create the contact submissions table
+2. Run the SQL scripts to create the required tables:
+   - `sql/contact_submissions.sql` - for boat owner exit submissions
+   - `sql/referral_submissions.sql` - for marina staff/skipper referrals
 3. Set up authentication in Supabase dashboard
 4. Create an admin user using the script in `scripts/setup-admin.js`
 
@@ -44,6 +46,7 @@ TWILIO_TWIML_APP_SID=your_twiml_app_sid
 
 - ✅ Admin user authentication
 - ✅ Contact form submissions saved to database
+- ✅ Referral submissions saved to database
 - ✅ Admin dashboard to view all submissions
 - ✅ Protected admin routes with middleware
 
@@ -59,7 +62,8 @@ TWILIO_TWIML_APP_SID=your_twiml_app_sid
 
 1. **Admin Login**: Visit `/secure-access/admin-portal` to access the admin dashboard
 2. **Contact Submissions**: View all form submissions at `/admin/dashboard`
-3. **Call Interface**: Access the call interface at `/calls`
+3. **Call Interface**: Access the call interface at `/admin/calls`
+4. **Referral Program**: Marina staff and skippers can submit referrals for $1,000 commission
 
 ### 6. Twilio Webhook Configuration
 

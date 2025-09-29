@@ -68,3 +68,20 @@ export interface ContactSubmission {
   created_at: string
   updated_at: string
 }
+
+export interface ReferralSubmission {
+  id: string
+  referrer_name: string
+  referrer_role: string
+  referrer_contact: string
+  owner_name: string
+  owner_contact: string
+  vessel_details: string
+  owner_consent: boolean
+  status: 'new' | 'contacted' | 'closed' | 'commission_paid'
+  commission_amount?: number
+  commission_paid_date?: string
+  notes?: string
+  created_at: string
+  updated_at: string
+}

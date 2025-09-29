@@ -5,15 +5,15 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-client'
 import {
   LayoutDashboard,
-  Calendar,
   Phone,
   LogOut,
-  Anchor
+  Anchor,
+  Users
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
+  { name: 'Referrals', href: '/admin/referrals', icon: Users },
   { name: 'Calls', href: '/admin/calls', icon: Phone },
 ]
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { VoiceResponse } from 'twilio'
+import twilio from 'twilio'
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     console.log('Voicemail request:', { callSid, from })
 
-    const twiml = new VoiceResponse()
+    const twiml = new twilio.twiml.VoiceResponse()
 
     twiml.say({
       voice: 'alice',
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Error handling voicemail:', error)
-    const twiml = new VoiceResponse()
+    const twiml = new twilio.twiml.VoiceResponse()
     twiml.say({
       voice: 'alice',
       language: 'en-AU'

@@ -78,7 +78,7 @@ export default function CallInterface() {
       // Initialize device
       const device = new Device(token, {
         logLevel: 'debug',
-        codecPreferences: ['opus', 'pcmu']
+        codecPreferences: ['opus' as any, 'pcmu' as any]
       })
 
       deviceRef.current = device

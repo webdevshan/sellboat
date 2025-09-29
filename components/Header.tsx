@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import {
-  Search,
   Menu,
   X,
   Anchor,
@@ -12,7 +11,6 @@ import {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   return (
     <>
@@ -78,22 +76,14 @@ export default function Header() {
               <Link href="#why-sell" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
                 Why Sell
               </Link>
+              <Link href="#referral" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
+                Referral
+              </Link>
               <Link href="#contact" className="text-gray-900 hover:text-primary-600 px-2 lg:px-3 py-2 text-sm lg:text-base font-bold transition-colors">
                 Contact
               </Link>
             </nav>
 
-            {/* Search Bar */}
-            <div className="hidden md:flex items-center flex-1 max-w-lg mx-2 lg:mx-4 xl:mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search boat syndicates..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 placeholder-gray-500 text-sm lg:text-base"
-                />
-              </div>
-            </div>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-2 sm:space-x-4">
@@ -104,8 +94,20 @@ export default function Header() {
                   <Plus className="h-5 w-5" />
                 </Link>
                 {/* Desktop: Text */}
-                <Link href="#contact" className="hidden sm:block btn-primary text-xs sm:text-sm px-3 sm:px-4 py-2">
+                <Link href="#contact" className="hidden sm:block bg-primary-600 text-white text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
                   Sell My Share
+                </Link>
+              </>
+
+              {/* Referral Button */}
+              <>
+                {/* Mobile: Icon only */}
+                <Link href="#referral" className="sm:hidden p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                  <Plus className="h-5 w-5" />
+                </Link>
+                {/* Desktop: Text */}
+                <Link href="#referral" className="hidden sm:block bg-green-600 text-white text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  Referral
                 </Link>
               </>
             </div>
@@ -126,29 +128,27 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-3 pt-2 pb-3 space-y-1 bg-white border-t">
-              <div className="grid grid-cols-3 gap-2 mb-4">
+              <div className="grid grid-cols-2 gap-2 mb-4">
                 <Link href="#process" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
                   How it Works
                 </Link>
                 <Link href="#why-sell" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
                   Why Sell
                 </Link>
+                <Link href="#referral" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
+                  Referral
+                </Link>
                 <Link href="#contact" className="block px-2 py-3 text-center text-gray-900 hover:text-primary-600 hover:bg-gray-50 rounded-lg font-bold transition-colors text-sm">
                   Contact
                 </Link>
               </div>
               <div className="px-2 py-2 border-t border-gray-200 pt-4">
-                <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search boat syndicates..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 placeholder-gray-500 text-sm"
-                  />
-                </div>
                 <div className="flex flex-col space-y-2">
                   <Link href="#contact" className="block px-3 py-2 text-center bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm">
                     Sell My Share
+                  </Link>
+                  <Link href="#referral" className="block px-3 py-2 text-center bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                    Referral
                   </Link>
                 </div>
               </div>

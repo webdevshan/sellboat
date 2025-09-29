@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { VoiceResponse } from 'twilio'
+import twilio from 'twilio'
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     // Here you would typically save the voicemail to your database
     // and send notifications to your team
 
-    const twiml = new VoiceResponse()
+    const twiml = new twilio.twiml.VoiceResponse()
     twiml.say({
       voice: 'alice',
       language: 'en-AU'
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Error handling voicemail completion:', error)
-    const twiml = new VoiceResponse()
+    const twiml = new twilio.twiml.VoiceResponse()
     twiml.say({
       voice: 'alice',
       language: 'en-AU'
