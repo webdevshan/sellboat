@@ -10,7 +10,7 @@ export default function ExitFunnelHero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          src="/small-boat.webp"
           alt="Luxury yacht on calm water"
           fill
           className="object-cover"
@@ -52,7 +52,7 @@ export default function ExitFunnelHero() {
         {/* Contact Options */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a
-            href="https://wa.me/61400123456?text=Hi%2C%20I%27m%20interested%20in%20selling%20my%20boat%20share%20for%20cash"
+            href="https://wa.me/61490328276?text=Hi%2C%20I%27m%20interested%20in%20selling%20my%20boat%20share%20for%20cash"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
@@ -61,7 +61,7 @@ export default function ExitFunnelHero() {
             <span>WhatsApp Us</span>
           </a>
           <a
-            href="tel:+61400123456"
+            href="tel:+61490328276"
             className="flex items-center space-x-2 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Phone className="h-5 w-5" />

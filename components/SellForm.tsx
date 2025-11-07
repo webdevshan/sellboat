@@ -373,7 +373,7 @@ export default function SellForm() {
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   className="input-field"
-                  placeholder="+61 400 123 456"
+                  placeholder="+61 490 328 276"
                   required
                 />
               </div>

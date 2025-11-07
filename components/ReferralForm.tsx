@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Users, DollarSign, CheckCircle, AlertCircle, MessageCircle, Phone, Mail } from 'lucide-react'
+import { Users, CheckCircle, AlertCircle, MessageCircle, Phone } from 'lucide-react'
 import { createClient } from '@/lib/supabase-client'
 
 export default function ReferralForm() {
@@ -129,49 +129,6 @@ export default function ReferralForm() {
           </p>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">How It Works:</h3>
-          <div className="space-y-3">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-semibold text-blue-600">1</span>
-                </div>
-              </div>
-              <p className="ml-3 text-gray-700">Have a quick conversation with the owner and confirm they're open to being contacted.</p>
-            </div>
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-semibold text-blue-600">2</span>
-                </div>
-              </div>
-              <p className="ml-3 text-gray-700">Submit their details via our secure form below.</p>
-            </div>
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-semibold text-blue-600">3</span>
-                </div>
-              </div>
-              <p className="ml-3 text-gray-700">Our team will follow up directly with them to explain our value proposition.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
-          <div className="flex items-center mb-3">
-            <DollarSign className="h-6 w-6 text-green-600 mr-2" />
-            <h3 className="text-lg font-semibold text-green-800">Your Reward</h3>
-          </div>
-          <p className="text-green-700 mb-2">
-            If we successfully close a purchase or lease, you'll receive an immediate $1,000 cash payment for each successful referral.
-          </p>
-          <p className="text-sm text-green-600">
-            Payment is made within 14 days of deal completion.
-          </p>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Referrer Information */}
           <div className="bg-gray-50 p-6 rounded-lg">
@@ -217,7 +174,7 @@ export default function ReferralForm() {
                   <option value="">Select your role</option>
                   <option value="marina-staff">Marina Staff</option>
                   <option value="skipper">Skipper</option>
-                  <option value="dock-master">Dock Master</option>
+                  {/* <option value="dock-master">Dock Master</option> */}
                   <option value="other">Other</option>
                 </select>
                 {errors.referrerRole && (

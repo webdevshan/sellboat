@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { MessageCircle, Phone, Mail, Shield, CheckCircle, AlertCircle } from 'lucide-react'
+import { MessageCircle, Phone, Shield, CheckCircle, AlertCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase-client'
 import { ContactSubmission } from '@/lib/supabase'
 
@@ -41,7 +41,7 @@ export default function LeadCapture() {
     try {
       const supabase = createClient()
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('contact_submissions')
         .insert([
           {
@@ -55,17 +55,34 @@ export default function LeadCapture() {
             status: 'new'
           }
         ])
-        .select()
 
       if (error) {
         console.error('Error saving submission:', error)
-        // Still show success to user, but log error
+      }
+
+      try {
+        await fetch('https://mediresponse.qcontact.com/api/v2/webhooks/dynamic/ng9r268eed', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            syndicate: formData.syndicate,
+            sharePercentage: formData.sharePercentage,
+            reason: formData.reason,
+            timeframe: formData.timeframe,
+          }),
+        })
+      } catch (webhookError) {
+        console.error('Error sending to QContact webhook:', webhookError)
       }
 
       setSubmitted(true)
     } catch (error) {
       console.error('Error saving submission:', error)
-      // Still show success to user
       setSubmitted(true)
     }
   }
@@ -139,7 +156,7 @@ export default function LeadCapture() {
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="your.email@example.com"
+                    placeholder="Enter your email address"
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
@@ -250,7 +267,7 @@ export default function LeadCapture() {
               <h3 className="text-xl font-semibold text-white mb-4">Prefer to Talk Directly?</h3>
               <div className="space-y-4">
                 <a
-                  href="https://wa.me/61400123456?text=Hi%2C%20I%27m%20interested%20in%20selling%20my%20boat%20share%20for%20cash"
+                  href="https://wa.me/61490328276?text=Hi%2C%20I%27m%20interested%20in%20selling%20my%20boat%20share%20for%20cash"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 text-white hover:text-primary-200 transition-colors"
@@ -258,28 +275,20 @@ export default function LeadCapture() {
                   <MessageCircle className="h-6 w-6" />
                   <div>
                     <div className="font-medium">WhatsApp</div>
-                    <div className="text-sm text-primary-200">0400 123 456</div>
+                    <div className="text-sm text-primary-200">0490 328 276</div>
                   </div>
                 </a>
 
                 <a
-                  href="tel:+61400123456"
+                  href="tel:+61490328276"
                   className="flex items-center space-x-3 text-white hover:text-primary-200 transition-colors"
                 >
                   <Phone className="h-6 w-6" />
                   <div>
                     <div className="font-medium">Phone</div>
-                    <div className="text-sm text-primary-200">0400 123 456</div>
+                    <div className="text-sm text-primary-200">0490 328 276</div>
                   </div>
                 </a>
-
-                <div className="flex items-center space-x-3 text-white">
-                  <Mail className="h-6 w-6" />
-                  <div>
-                    <div className="font-medium">Email</div>
-                    <div className="text-sm text-primary-200">info@exityourboatshare.com.au</div>
-                  </div>
-                </div>
               </div>
             </div>
 

@@ -101,9 +101,4 @@ TWILIO_TWIML_APP_SID=your_twiml_app_sid
 
 ### 7. Default Admin Credentials
 
-After running the setup script:
-
-- Email: `admin@exityourboatshare.com.au`
-- Password: `Admin123!`
-
-**Important**: Change the default password after first login!
+After running the setup script, change the default password after first login!

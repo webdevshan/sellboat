@@ -164,7 +164,7 @@ This project is licensed under the MIT License.
 
 ## Support
 
-For support, email info@boatmarket.com.au or visit our help center.
+For support, please reach out through the contact form on the website.
 
 ---
 
