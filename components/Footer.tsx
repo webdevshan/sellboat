@@ -24,7 +24,7 @@ export default function Footer() {
                   <span className="text-2xl">😊</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">500+</div>
+                  <div className="text-2xl font-bold">50+</div>
                   <div className="text-primary-100 text-sm">Shares Purchased</div>
                 </div>
               </div>
@@ -36,7 +36,7 @@ export default function Footer() {
                   <span className="text-2xl">⛵</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">$15M+</div>
+                  <div className="text-2xl font-bold">$1M+</div>
                   <div className="text-primary-100 text-sm">Cash Paid Out</div>
                 </div>
               </div>
