@@ -190,7 +190,6 @@ export default function LeadCapture() {
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                       errors.syndicate ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="e.g. BSA, Rivergate, etc."
                   />
                   {errors.syndicate && <p className="text-red-500 text-sm mt-1">{errors.syndicate}</p>}
                 </div>
